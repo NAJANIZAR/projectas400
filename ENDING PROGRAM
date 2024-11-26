@@ -1,0 +1,6 @@
+ PGM                                                                               
+              MONMSG     MSGID(CPF0000) EXEC(GOTO CMDLBL(CALLPGM))                 
+              ENDJOB     JOB(TEN04/LOGINRPG) OPTION(*IMMED)                        
+              DLYJOB     DLY(5)                                                    
+  CALLPGM:    CALL       PGM(ASGAR2/LOGINRPG)                                      
+ ENDPGM                                                                            
