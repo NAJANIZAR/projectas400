@@ -1,0 +1,14 @@
+ 1.  UPDATE STOCK DATABASE                      
+ 2.  UPDATE RECEIVED INVENTORY                  
+ 3.  UPDATE ISSUED INVENTORY                    
+ 4.  UPDATE DAMAGED GOODS                       
+ 5.  UPDATE USER ACCESS                         
+ 6.  VIEW STOCK DATABASE INVENTORY              
+ 7.  VIEW GOODS RECIEVED INVENTORY              
+ 8.  VIEW ISSUED INVENTORY                      
+ 9.  VIEW DAMAGED INVENTORY                     
+10.  LIST ITEMS BELOW THRESHOLD                 
+11.  GENERATE FMC GOODS REPORT                  
+12.  GENERATE ISSUED GOODS REPORT               
+13.  STOCK REQUISITION SUMMARY                  
+14.  LOGOUT                                     
