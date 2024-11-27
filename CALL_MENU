@@ -1,0 +1,5 @@
+PGM                           
+CALL PGM(PRTF1)               
+DSPSPLF FILE(REPORT1)         
+DLTSPLF FILE(REPORT1)         
+ENDPGM                        
