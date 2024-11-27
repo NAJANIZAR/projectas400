@@ -1,0 +1,28 @@
+ HOPTION(*SRCSTMT)                                                                                  
+ FSTOCKMASTRO    E             DISK                                                                 
+ FENTRYDSP  CF   E             WORKSTN                                                              
+ C                   EXFMT     ENTRY1                                                               
+ C                   DOW       (*IN03 = *OFF) AND (*IN12 = *OFF)                                    
+ C                   IF        *IN06  = *ON                                                         
+ C                   EVAL      ITMCODE=ITMCODE                                                      
+ C                   EVAL      ITMNAM = ITMNAM                                                      
+ C                   EVAL      MEASUREMNT = MEASUREMNT                                              
+ C                   EVAL      STKINHND = STKINHND                                                  
+ C                   EVAL      REORDRLVL = REORDRLVL                                                
+ C                   EVAL      PRICE = PRICE                                                        
+ C                   EVAL      VALUE = STKINHND * PRICE                                             
+ C                   WRITE(E)  RECD                                                                 
+ C                   IF        %ERROR                                                               
+ C     'ERROR FOUND 'DSPLY                                                                          
+ C                   LEAVE                                                                          
+ C                   ELSE                                                                           
+ C     'SUCCESS '    DSPLY 
+C                   ENDIF                                                                        
+C                   ENDIF                                                                        
+C                   EVAL      *IN06 = *OFF                                                       
+C                   EXFMT     ENTRY1                                                             
+C                   IF        *IN01 = *ON                                                        
+C                   EXFMT     W1                                                                 
+C                   ENDIF                                                                        
+C                   ENDDO                                                                        
+C                   SETON                                            LR                          
