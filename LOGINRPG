@@ -1,0 +1,25 @@
+HOPTION(*NODEBUGIO :*SRCSTMT)                                                             
+FLOGIN     IF   E           K DISK    PREFIX(P)                                           
+FLOGINDSP  CF   E             WORKSTN                                                     
+C                   DOW       *IN03=*OFF                                                  
+C                   EXFMT     LOGINREC                                                    
+C                   EXSR      VERIFY                                                      
+C                   IF        *IN01 = *ON                                                 
+C                   EXFMT     W1                                                          
+C                   ENDIF                                                                 
+C                   ENDDO                                                                 
+C                   EVAL      *INLR = *ON                                                 
+C     VERIFY        BEGSR                                                                 
+C     USERID        CHAIN     LOGIN                                                       
+C                   IF        %FOUND(LOGIN) AND PPASSWORD = PASSWORD                      
+C                   CLEAR                   ERRORMSG2                                     
+C                   CLEAR                   ERRORMSG1                                     
+C                   EVAL      ERRORMSG2 = 'LOGIN SUCCESSFULLY'                            
+C                   CALL      'MENUCLLE0'                                                 
+C                   CLEAR                   ERRORMSG2                                     
+C                   CLEAR                   ERRORMSG1                      
+C                   ELSE                                                   
+C                   EVAL      ERRORMSG1 = 'INVALID CREDENTIALS'            
+C                   CLEAR                   ERRORMSG2                      
+C                   ENDIF                                                  
+C                   ENDSR                                                  
