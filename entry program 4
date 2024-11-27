@@ -1,0 +1,35 @@
+HOPTION(*SRCSTMT)                                                                    
+FWARETARE  O    E           K DISK    PREFIX(P)                                      
+FSTOCKMASTRUF   E           K DISK    PREFIX(S)                                      
+FENTRYDSP  CF   E             WORKSTN                                                
+C                   DOW       (*IN03 = *OFF) AND (*IN12 = *OFF)                      
+C                   IF        *IN06 = *ON                                            
+C                   EVAL      PWARETAREID = WARETAREID                               
+C                   EVAL      PITMCODE = ITMCODE                                     
+C                   EVAL      PUSR = USR                                             
+C                   EVAL      PREASON = REASON                                       
+C                   EVAL      PDT4 = DT4                                             
+C                   EVAL      PTM4 = TM4                                             
+C                   EVAL      PQUNTYLOSS = QUNTYLOSS                                 
+C     ITMCODE       CHAIN     STOCKMASTR                                             
+C                   IF        %FOUND(STOCKMASTR)                                     
+C                   IF        PQUNTYLOSS > 0                                         
+C                   EVAL      SSTKINHND = SSTKINHND -  PQUNTYLOSS                    
+C                   EVAL      SVALUE = SSTKINHND * SPRICE                            
+C                   UPDATE    RECD                                                   
+C     'UPDT SUCCESS'DSPLY                                                                 
+C                   ELSE                                                                  
+C     'NO LOSS'     DSPLY                                                                 
+C                   ENDIF                                                                 
+C                   ELSE                                                                  
+C     'NOT FOUND'   DSPLY                                                                 
+C                   ENDIF                                                                 
+C                   WRITE(E)  RCD                                                         
+C                   ENDIF                                                                 
+C                   EVAL      *IN06 = *OFF                                                
+C                   EXFMT     ENTRY4                                                      
+C                   IF        *IN01 = *ON                                                 
+C                   EXFMT     W4                                                          
+C                   ENDIF                                                                 
+C                   ENDDO                                                                 
+C                   SETON                                            LR                   
