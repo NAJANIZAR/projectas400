@@ -1,0 +1,129 @@
+HDEBUG(*YES)                                                              
+ *                                                                        
+FS1        CF   E             WORKSTN SFILE(M1:RRN#) INFDS(FILDS)         
+F                                     PREFIX(P)                           
+ *                                                                        
+D RRN#            S              4S 0                                     
+D FILDS           DS                                                      
+D RECNO                 378    379I 0                                     
+D OPT             S              1P 0 INZ(0)                              
+ *                                                                        
+C/EXEC SQL                                                                
+C+ SET OPTION CLOSQLCSR = *ENDMOD,                                        
+C+            COMMIT = *NONE                                              
+C/END-EXEC                                                                
+ *                                                                        
+ *                                                                        
+C                   DOW       (*IN03 = *OFF) AND (*IN12 = *OFF)           
+C                   EXSR      DSPSR                                       
+C                   EXSR      MODSR                                       
+C                   ENDDO                                                        
+C/EXEC SQL                                                                       
+C+ CLOSE C1                                                                      
+C/END-EXEC                                                                       
+ *                                                                               
+C                   EVAL      *INLR = *ON                                        
+C     *INZSR        BEGSR                                                        
+C                   EVAL      *IN40 = *OFF                                       
+C                   EVAL      *IN41 = *OFF                                       
+C                   EVAL      *IN42 = *OFF                                       
+C                   EVAL      *IN43 = *OFF                                       
+C                   EVAL      RRN# = 0                                           
+C                   EVAL      PSRECNO = 1                                        
+C/EXEC SQL                                                                       
+C+ DECLARE C1 CURSOR FOR SELECT ITMCODE, ITMNAM, STKINHND,                       
+C+ MEASUREMNT, REORDRLVL, PRICE FROM ASGAR2/STOCKMASTR                           
+C/END-EXEC                                                                       
+ *                                                                               
+C/EXEC SQL                                                                       
+C+ OPEN C1                                                                       
+C/END-EXEC                                                                            
+ *                                                                                    
+C                   EXSR      CLEARSR                                                 
+C                   EXSR      LOADSR                                                  
+ *                                                                                    
+C                   ENDSR                                                             
+ *                                                                                    
+C     CLEARSR       BEGSR                                                             
+C                   EVAL      RRN# = 0                                                
+C                   EVAL      *IN42 = *ON                                             
+C                   WRITE     M2                                                      
+C                   EVAL      *IN42 = *OFF                                            
+C                   ENDSR                                                             
+ *                                                                                    
+C     LOADSR        BEGSR                                                             
+C                   EVAL      *IN43 = *OFF                                            
+C/EXEC SQL                                                                            
+C+ FETCH NEXT FROM C1 INTO :PITMCODE, :PITMNAM, :PSTKINHND,                           
+C+ :PMEASUREMNT, :PREORDRLVL, :PPRICE                                                 
+C/END-EXEC                                                                            
+ *                                                                                         
+C                   DOW       SQLCOD = *ZEROS                                              
+C                   EVAL      RRN# = RRN# + 1                                              
+C                   IF        RRN# > 9999                                                  
+C                   LEAVE                                                                  
+C                   ENDIF                                                                  
+C                   WRITE     M1                                                           
+C/EXEC SQL                                                                                 
+C+ FETCH NEXT FROM C1 INTO :PITMCODE, :PITMNAM, :PSTKINHND,                                
+C+ :PMEASUREMNT, :PREORDRLVL, :PPRICE                                                      
+C/END-EXEC                                                                                 
+C                   ENDDO                                                                  
+C                   EVAL      *IN43 = *ON                                                  
+C                   ENDSR                                                                  
+ *                                                                                         
+C     DSPSR         BEGSR                                                                  
+C                   EVAL      *IN40 = *ON                                                  
+C                   EVAL      *IN41 = *ON                                                  
+C                   IF        RRN# < 0                                                     
+C                   EVAL      *IN40 = *OFF                        
+C                   ENDIF                                                                     
+C                   WRITE     FOOTER                                                          
+C                   WRITE     M2                                                              
+C                   READC(E)  M1                                                              
+C                   DOW       NOT%EOF(S1)                                                     
+C/EXEC SQL                                                                                    
+C+ INSERT INTO ASGAR2/STOCKMASTR (ITMCODE, ITMNAM, STKINHND,                                  
+C+ MEASUREMNT, REORDRLVL, PRICE) VALUES(:PITMCODE, :PITMNAM,                                  
+C+ :PSTKINHND, :PMEASUREMNT, :PREORDRLVL, :PPRICE)                                            
+C/END-EXEC                                                                                    
+ *                                                                                            
+C/EXEC SQL                                                                                    
+C+ UPDATE ASGAR2/STOCKMASTR                                                                   
+C+ SET VALUE = :PSTKINHND * :PPRICE                                                           
+C+ WHERE ITMCODE = :PITMCODE                                                                  
+C/END-EXEC                                                                                    
+ *                                                                                            
+C                   READC     M1                                                              
+C                   ENDDO                                                                     
+C                   EVAL      PSRECNO = RECNO                                                 
+C                   EVAL      *IN40 = *OFF                                               
+C                   EVAL      *IN41 = *OFF                                               
+C                   ENDSR                                                                
+ *                                                                                       
+C     MODSR         BEGSR                                                                
+C     'ENTER OPTION'DSPLY                   OPT                                          
+C                   EXFMT     M2                                                         
+C                   IF        OPT = 2                                                    
+C                   READC     M1                                                         
+C                   DOW       NOT%EOF(S1)                                                
+C/EXEC SQL                                                                               
+C+ UPDATE ASGAR2/STOCKMASTR                                                              
+C+ SET STKINHND = :PSTKINHND, PRICE = :PPRICE                                            
+C+ WHERE ITMCODE = :PITMCODE                                                             
+C/END-EXEC                                                                               
+C                   READC     M1                                                         
+C                   ENDDO                                                                
+C                   ENDIF                                                                
+ *                                                                                       
+C                   ELSEIF    OPT = 4                                                    
+C                   READC     M1                                         
+C                   DOW       NOT%EOF(S1)                                
+C/EXEC SQL                                                               
+C+ DELETE FROM ASGAR2/STOCKMASTR                                         
+C+ WHERE ITMCODE = :PITMCODE                                             
+C/END-EXEC                                                               
+C                   READC     M1                                         
+C                   ENDDO                                                
+C                   ENDIF                                                
+C                   ENDSR                                                
