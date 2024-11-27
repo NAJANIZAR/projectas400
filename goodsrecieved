@@ -1,0 +1,11 @@
+  A                                      UNIQUE                                              
+  A          R RCVR                                                                          
+  A            GRN            7A         COLHDG('GOODS RECEIVED NOTE')                       
+  A            ITMCODE        5P 0       COLHDG('ITEM CODE')                                 
+  A            USR            8A         COLHDG('USER RECEIVED')                             
+  A            DAT2            L         COLHDG('DATE RECEIVED')                             
+  A            TIM2            T         COLHDG('TIME OF RECEIPT')                           
+  A            RQSTNO         4P 0       COLHDG('REQUEST NO')                                
+  A            QTY            4P 0       COLHDG('QUANTITY RECEIVED')                         
+  A            PRICE1         5P 2       COLHDG('TOTAL PRICE')                               
+  A          K ITMCODE                                                                       
