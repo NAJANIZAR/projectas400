@@ -1,0 +1,32 @@
+HOPTION(*SRCSTMT)                                                                     
+FGOODRCVD  O    E           K DISK    PREFIX(P)                                       
+FSTOCKMASTRUF   E           K DISK    PREFIX(S)                                       
+FENTRYDSP  CF   E             WORKSTN                                                 
+C                   DOW       (*IN03 = *OFF) AND (*IN12 = *OFF)                       
+C                   IF        *IN06 = *ON                                             
+C                   EVAL      PGRN = GRN                                              
+C                   EVAL      PITMCODE = ITMCODE                                      
+C                   EVAL      PUSR = USR                                              
+C                   EVAL      PDAT2 = DAT2                                            
+C                   EVAL      PTIM2 = TIM2                                            
+C                   EVAL      PRQSTNO = RQSTNO                                        
+C                   EVAL      PQTY = QTY                                              
+C                   EVAL      PPRICE1 = PRICE1                                        
+C     ITMCODE       CHAIN     STOCKMASTR                                              
+C                   IF        %FOUND(STOCKMASTR)                                      
+C                   EVAL      SSTKINHND = SSTKINHND + QTY                             
+C                   EVAL      SVALUE = SSTKINHND * SPRICE                             
+C                   UPDATE    RECD                                                    
+C     'UPDATED'     DSPLY                                                              
+C                   ELSE                                                               
+C     'NOT FOUND'   DSPLY                                                              
+C                   ENDIF                                                              
+C                   WRITE(E)  RCVR                                                     
+C                   ENDIF                                                              
+C                   EVAL      *IN06 = *OFF                                             
+C                   EXFMT     ENTRY6                                                   
+C                   IF        *IN01 = *ON                                              
+C                   EXFMT     W2                                                       
+C                   ENDIF                                                              
+C                   ENDDO                                                              
+C                   SETON                                            LR                
