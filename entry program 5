@@ -1,0 +1,23 @@
+HOPTION(*SRCSTMT)                                                                  
+FLOGIN     O    E             DISK    PREFIX(P)                                    
+FENTDSP    CF   E             WORKSTN                                              
+C                   EXFMT     RECORDR                                              
+C                   DOW       (*IN03 = *OFF) AND (*IN12 = *OFF)                    
+C                   IF        *IN06 = *ON                                          
+C                   EVAL      PUSERID = USERID                                     
+C                   EVAL      PPASSWORD = PASSWORD                                 
+C                   WRITE     LOGINR                                               
+C                   IF        %ERROR                                               
+C     'ERROR FOUND 'DSPLY                                                          
+C                   LEAVE                                                          
+C                   ELSE                                                           
+C     'ADDED'       DSPLY                                                          
+C                   ENDIF                                                          
+C                   ENDIF                                                          
+C                   EVAL      *IN06 = *OFF                                         
+C                   EXFMT     RECORDR                                              
+C                   IF        *IN01 = *ON                                          
+C                   EXFMT     W5                                                       
+C                   ENDIF                                                              
+C                   ENDDO                                                              
+C                   SETON                                            LR                
